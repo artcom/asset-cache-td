@@ -1,9 +1,36 @@
+# TouchDesigner Asset Cache Component
 
-Integrate into project:
+Component to download and cache asset from ACMS.
 
-load tox
-reload custom parameters OFF
+## Requirements
 
-To download assets call:
+- Touchdesigner  >= 2023.12370
+- Python 3.11
 
-op.AssetCache.DownloadConfiguration()
+## Installation
+
+Copy this directory into the "external" folder on the base directory of your project:
+
+```sh
+./external/asset-cache
+```
+
+Load the tox into your project
+
+In the "Common" page set "Reload custom parameters" to "OFF"
+
+## Usage
+
+Parameters on page "Input":
+
+| Parameter       | Description                                                                                   |
+| :-------------- | :-------------------------------------------------------------------------------------------- |
+| `AssetCacheDir` | The root directory of the asset cache. Directory structure will be created on first download |
+| `AssetConfig`   | JSON DAT containing the asset description                                                     |
+| `Download`      | Manual trigger for download                                                                   |
+
+To download assets use method call:
+
+```py
+op.AssetCache.DownloadAssets()
+```
