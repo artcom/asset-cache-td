@@ -109,6 +109,8 @@ class AssetCache:
                     return self._extract_headers(r.headers)
         except requests.Timeout as e:
             self._logger.error(e)
+        except Exception as e:
+            self._logger.error(e)
 
     def _extract_headers(self, headers: dict) -> dict:
         return {
@@ -121,6 +123,8 @@ class AssetCache:
             with requests.head(url, allow_redirects=True, timeout=10) as r:
                 return self._extract_headers(r.headers)
         except requests.Timeout as e:
+            self._logger.error(e)
+        except Exception as e:
             self._logger.error(e)
 
     def _is_asset_outdated(self, manifest: dict, headers: dict, filename: str) -> bool:
