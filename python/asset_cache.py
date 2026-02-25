@@ -33,6 +33,7 @@ class AssetCache:
 
         self._rewrite_asset_urls(assets, assets_dir)
         self._save_assets(assets)
+        self._logger.info("...finished")
 
     def _create_cache_dir(self, cache_dir: str):
         Path(cache_dir).mkdir(parents=True, exist_ok=True)
