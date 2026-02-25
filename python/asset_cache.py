@@ -13,8 +13,21 @@ class AssetCache:
         self._logger = logging.getLogger(self.__class__.__name__)
         self._owner_comp = ownerComp
 
+    def DownloadAssetsManual(self):
+        self._download_assets()
+
     def DownloadAssets(self):
-        self._logger.info("Downloading assets...")
+        self._download_assets(parent().par.Offline)
+
+    def _download_assets(self, offline=False):
+        if offline:
+            self._logger.info("AssetCache OFFLINE")
+            self._owner_comp.DoCallback('onUpdateFinished')
+            return
+
+        self._logger.info("downloading assets")
+        self._owner_comp.DoCallback('onUpdateStart')
+
         manifest = op('manifest').result
         if manifest is None:
             manifest = {}
@@ -33,7 +46,8 @@ class AssetCache:
 
         self._rewrite_asset_urls(assets, assets_dir)
         self._save_assets(assets)
-        self._logger.info("...finished")
+        self._logger.info("download complete")
+        self._owner_comp.DoCallback('onUpdateFinished')
 
     def _create_cache_dir(self, cache_dir: str):
         Path(cache_dir).mkdir(parents=True, exist_ok=True)
@@ -100,6 +114,9 @@ class AssetCache:
         op('assets_save').par.write.pulse()
 
     def _download_file(self, url: str, filepath: str) -> dict:
+        info = {'url': url}
+        self._owner_comp.DoCallback('onDownloadStart', info)
+
         try:
             with requests.get(url, stream=True, timeout=10) as r:
                 r.raise_for_status()
@@ -107,11 +124,16 @@ class AssetCache:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:
                             f.write(chunk)
+                    self._owner_comp.DoCallback('onDownloadFinished', info)
                     return self._extract_headers(r.headers)
         except requests.Timeout as e:
             self._logger.error(e)
+            info = {'error': e}
+            self._owner_comp.DoCallback('onDownloadFailure', info)
         except Exception as e:
             self._logger.error(e)
+            info = {'error': e}
+            self._owner_comp.DoCallback('onDownloadFailure', info)
 
     def _extract_headers(self, headers: dict) -> dict:
         return {

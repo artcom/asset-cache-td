@@ -23,14 +23,25 @@ In the "Common" page set "Reload custom parameters" to "OFF"
 
 Parameters on page "Input":
 
-| Parameter       | Description                                                                                   |
-| :-------------- | :-------------------------------------------------------------------------------------------- |
+| Parameter       | Description                                                                                  |
+| :-------------- | :------------------------------------------------------------------------------------------- |
 | `AssetCacheDir` | The root directory of the asset cache. Directory structure will be created on first download |
-| `AssetConfig`   | JSON DAT containing the asset description                                                     |
-| `Download`      | Manual trigger for download                                                                   |
+| `AssetConfig`   | JSON DAT containing the asset description                                                    |
+| `Offline`       | Asset cache works offline and does not sync data from ACMS. Calls `onUpdateFinished`.        |
+| `Download`      | Manual trigger for download                                                                  |
 
 To download assets use method call:
 
 ```py
 op.AssetCache.DownloadAssets()
 ```
+
+Callbacks will inform over status:
+
+| Callback             | Description                        |
+| :------------------- | :--------------------------------- |
+| `onUpdateStart`      | Update of asset cache started      |
+| `onUpdateFinished`   | Update of asset cache finished     |
+| `onDownloadStart`    | Download of a single file started  |
+| `onDownloadFinished` | Download of a single file finished |
+| `onDownloadFailure`  | Download of a single file failed   |
