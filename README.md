@@ -15,9 +15,12 @@ Copy this directory into the "external" folder on the base directory of your pro
 ./external/asset-cache
 ```
 
-Load the tox into your project
+Load the tox into your project:
 
-In the "Common" page set "Reload custom parameters" to "OFF"
+1. drag into your project
+2. Common -> Enable External .tox = ON
+3. Common -> External .tox Path = set to tox file
+4. Common -> Reload custom parameters = OFF
 
 ## Usage
 
