@@ -1,0 +1,24 @@
+[project]
+name = "asset-cache-td"
+version = "0.1.0"
+description = "TD Component to download and cache asset from ACMS"
+readme = "README.md"
+requires-python = ">=3.11"
+
+authors = [
+    {name = "Julian Krumow", email = "julian.krumow@artcom.de"},
+]
+
+dependencies = [
+    "requests==2.32.5"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.tox"]
