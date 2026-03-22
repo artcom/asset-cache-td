@@ -22,7 +22,6 @@ Load the tox into your project:
 3. Common -> Enable External .tox = ON
 4. Common -> Reload custom parameters = OFF
 
-
 ## Usage
 
 Parameters on page "Input":
