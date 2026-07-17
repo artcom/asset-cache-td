@@ -3,6 +3,7 @@ import json
 import logging
 import os
 from pathlib import Path
+from pathlib import PurePath
 from urllib.parse import urlparse
 import requests
 
@@ -175,5 +176,8 @@ class AssetCache:
         return os.path.basename(filepath)
 
     def _get_filepath(self, assets_dir: str, url: str) -> str:
-        filename = self._get_filename(url)
-        return os.path.join(assets_dir, filename)
+        filepath = urlparse(url).path
+        pure_filepath = PurePath(filepath)
+        pure_filename = pure_filepath.name
+        pure_assets_dir = PurePath(assets_dir)
+        return PurePath.joinpath(pure_assets_dir, pure_filename).as_posix()
